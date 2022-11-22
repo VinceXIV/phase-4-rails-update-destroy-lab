@@ -18,6 +18,20 @@ class PlantsController < ApplicationController
     render json: plant, status: :created
   end
 
+  def update
+    render json: Plant.update(params[:id], plant_params)
+  end
+
+  def destroy
+    plant = Plant.find_by(id: params[:id])
+    if(plant)
+      plant.destroy
+      head :no_content
+    else
+      render json: {error: "plant not found!"}, status: 404
+    end
+  end
+
   private
 
   def plant_params
